@@ -1,4 +1,16 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import (
+
+    Blueprint,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash,
+    session,
+    current_app
+    
+)
+
 from functools import wraps
 
 from models import db, User, SecureNote
@@ -12,20 +24,22 @@ routes = Blueprint('routes', __name__)
 
 
 # ====================================
-# SECRET KEY FOR ENCRYPTION
+# ENCRYPTION OBJECT
 # ====================================
-SECRET_KEY = 'SUPER_SECURE_SECRET_KEY_2026'
-
-# Encryption object
-crypto = EncryptionManager(SECRET_KEY)
+def get_crypto():
+    return EncryptionManager(
+        current_app.config['ENCRYPTION_SECRET_KEY']
+    )
 
 
 # ====================================
 # LOGIN REQUIRED DECORATOR
 # ====================================
 def login_required(f):
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
+
         if 'user_id' not in session:
             flash('Please login first.', 'danger')
             return redirect(url_for('routes.login'))
@@ -39,6 +53,7 @@ def login_required(f):
 # ADMIN REQUIRED DECORATOR
 # ====================================
 def admin_required(f):
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
 
@@ -46,10 +61,10 @@ def admin_required(f):
             flash('Please login first.', 'danger')
             return redirect(url_for('routes.login'))
 
-        user = User.query.get(session['user_id'])
+        user = db.session.get(User, session['user_id'])
 
         if not user or not user.is_admin():
-            flash('Unauthorized Access!', 'danger')
+            flash('Unauthorized access!', 'danger')
             return redirect(url_for('routes.dashboard'))
 
         return f(*args, **kwargs)
@@ -82,7 +97,7 @@ def register():
             flash('All fields are required.', 'danger')
             return redirect(url_for('routes.register'))
 
-        # Check existing user
+        # Existing user check
         existing_user = User.query.filter(
             (User.username == username) |
             (User.email == email)
@@ -92,7 +107,7 @@ def register():
             flash('User already exists.', 'warning')
             return redirect(url_for('routes.register'))
 
-        # Create user
+        # Create new user
         new_user = User(
             username=username,
             email=email,
@@ -106,6 +121,7 @@ def register():
         db.session.commit()
 
         flash('Registration successful!', 'success')
+
         return redirect(url_for('routes.login'))
 
     return render_template('register.html')
@@ -122,17 +138,20 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(
+            username=username
+        ).first()
 
         # Password verification
         if user and user.check_password(password):
 
-            # Session Management
+            # Session management
             session['user_id'] = user.id
             session['username'] = user.username
             session['role'] = user.role
 
             flash('Login successful!', 'success')
+
             return redirect(url_for('routes.dashboard'))
 
         flash('Invalid username or password.', 'danger')
@@ -155,22 +174,29 @@ def logout():
 
 
 # ====================================
-# USER DASHBOARD
+# DASHBOARD
 # ====================================
 @routes.route('/dashboard')
 @login_required
 def dashboard():
 
-    user = User.query.get(session['user_id'])
+    user = db.session.get(User, session['user_id'])
 
-    notes = SecureNote.query.filter_by(user_id=user.id).all()
+    notes = SecureNote.query.filter_by(
+        user_id=user.id
+    ).all()
+
+    crypto = get_crypto()
 
     decrypted_notes = []
 
     for note in notes:
+
         decrypted_notes.append({
             'id': note.id,
-            'content': crypto.decrypt_data(note.encrypted_content),
+            'content': crypto.decrypt_data(
+                note.encrypted_content
+            ),
             'created_at': note.created_at
         })
 
@@ -182,7 +208,7 @@ def dashboard():
 
 
 # ====================================
-# CREATE SECURE NOTE
+# CREATE NOTE
 # ====================================
 @routes.route('/create-note', methods=['POST'])
 @login_required
@@ -194,7 +220,8 @@ def create_note():
         flash('Content cannot be empty.', 'warning')
         return redirect(url_for('routes.dashboard'))
 
-    # Encrypt note
+    crypto = get_crypto()
+
     encrypted_content = crypto.encrypt_data(content)
 
     note = SecureNote(
@@ -213,21 +240,23 @@ def create_note():
 # ====================================
 # DELETE NOTE
 # ====================================
-@routes.route('/delete-note/<int:note_id>')
+@routes.route('/delete-note/<int:note_id>', methods=['POST'])
 @login_required
 def delete_note(note_id):
 
     note = SecureNote.query.get_or_404(note_id)
 
-    # Access Control
+    # Access control
     if note.user_id != session['user_id']:
+
         flash('Unauthorized action.', 'danger')
+
         return redirect(url_for('routes.dashboard'))
 
     db.session.delete(note)
     db.session.commit()
 
-    flash('Note deleted.', 'success')
+    flash('Note deleted successfully.', 'success')
 
     return redirect(url_for('routes.dashboard'))
 
