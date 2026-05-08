@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="hero-section">
+
+    <div class="hero-content">
+
+        <h1>
+            Secure Notes Management System
+        </h1>
+
+        <p>
+            Professional software security project with authentication,
+            RBAC access control and encrypted data storage.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('routes.login') }}" class="btn-primary">
+                Login
+            </a>
+
+            <a href="{{ url_for('routes.register') }}" class="btn-secondary">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="features-grid">
+
+    <div class="feature-card">
+        <h3>Password Hashing</h3>
+        <p>Passwords are securely hashed before database storage.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Encrypted Notes</h3>
+        <p>All sensitive notes are encrypted using Fernet encryption.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>RBAC Access Control</h3>
+        <p>Admin and User roles are protected with authorization logic.</p>
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>
+        Welcome, {{ user.username }}
+    </h1>
+
+    <p>
+        Secure encrypted note management dashboard.
+    </p>
+
+</div>
+
+
+<div class="note-form-card">
+
+    <h2>Create Secure Note</h2>
+
+    <form method="POST" action="{{ url_for('routes.create_note') }}">
+
+        <textarea
+            name="content"
+            rows="5"
+            placeholder="Write your secure note here..."
+            required>
+        </textarea>
+
+        <button type="submit" class="btn-primary">
+            Save Secure Note
+        </button>
+
+    </form>
+
+</div>
+
+
+<div class="notes-grid">
+
+    {% for note in notes %}
+
+        <div class="note-card">
+
+            <div class="note-top">
+
+                <h3>Secure Note</h3>
+
+                <span>
+                    {{ note.created_at.strftime('%Y-%m-%d') }}
+                </span>
+
+            </div>
+
+            <p>
+                {{ note.content }}
+            </p>
+
+            <form
+                method="POST"
+                action="{{ url_for('routes.delete_note', note_id=note.id) }}">
+
+                <button type="submit" class="btn-danger">
+                    Delete
+                </button>
+
+            </form>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

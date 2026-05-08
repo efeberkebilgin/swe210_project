@@ -7,6 +7,7 @@ class EncryptionManager:
 
     def __init__(self, secret_key):
 
+
         # Generate SHA256 hash
         key = hashlib.sha256(secret_key.encode()).digest()
 
