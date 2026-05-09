@@ -1,6 +1,27 @@
-# Secure Notes Management System
+# 🔐 Secure Notes Management System
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge\&logo=python)
+![Flask](https://img.shields.io/badge/Flask-Web_App-black?style=for-the-badge\&logo=flask)
+![SQLite](https://img.shields.io/badge/SQLite-Database-07405E?style=for-the-badge\&logo=sqlite)
+![Security](https://img.shields.io/badge/Security-RBAC_&_Encryption-success?style=for-the-badge)
+![Status](https://img.shields.io/badge/Project-Professional-success?style=for-the-badge)
+
+<h3>🛡️ Professional Secure Web Application for SWE210 Software Security Course</h3>
+
+<p>
+Modern Flask-based secure note management platform with authentication,
+RBAC authorization and encrypted data storage.
+</p>
+
+</div>
+
+---
 
 Professional Flask-based secure web application developed for the SWE210 Software Security course project.
+
+## ✨ Project Highlights
 
 This project demonstrates:
 
@@ -29,9 +50,9 @@ The system was designed with software security principles in mind and implements
 
 ---
 
-# Security Features
+# 🚀 Security Features
 
-## Authentication System
+## 🔑 Authentication System
 
 The application includes a secure authentication mechanism using:
 
@@ -44,7 +65,7 @@ Passwords are never stored as plaintext.
 
 ---
 
-## Password Hashing
+## 🔐 Password Hashing
 
 Passwords are hashed using:
 
@@ -66,7 +87,7 @@ Benefits:
 
 ---
 
-## Role-Based Access Control (RBAC)
+## 👥 Role-Based Access Control (RBAC)
 
 Two roles are implemented:
 
@@ -79,7 +100,7 @@ Unauthorized users cannot access admin-only routes.
 
 ---
 
-## Encryption System
+## 🧬 Encryption System
 
 Sensitive note data is encrypted before storage.
 
@@ -98,7 +119,7 @@ Main security workflow:
 
 ---
 
-# Technologies Used
+# ⚙️ Technologies Used
 
 | Technology       | Purpose          |
 | ---------------- | ---------------- |
@@ -111,7 +132,7 @@ Main security workflow:
 
 ---
 
-# Project Structure
+# 📁 Project Structure
 
 ```text
 project/
@@ -138,9 +159,9 @@ project/
 
 ---
 
-# File Descriptions
+# 📚 File Descriptions
 
-## app.py
+## 🖥️ app.py
 
 Main Flask application file.
 
@@ -153,7 +174,7 @@ Responsibilities:
 
 ---
 
-## config.py
+## ⚙️ config.py
 
 Stores application configuration.
 
@@ -165,7 +186,7 @@ Contains:
 
 ---
 
-## models.py
+## 🗄️ models.py
 
 Contains SQLAlchemy database models.
 
@@ -190,7 +211,7 @@ Stores:
 
 ---
 
-## encryption.py
+## 🔒 encryption.py
 
 Handles encryption and decryption operations.
 
@@ -202,7 +223,7 @@ Features:
 
 ---
 
-## routes.py
+## 🌐 routes.py
 
 Contains all Flask routes.
 
@@ -247,7 +268,7 @@ Main routes:
 
 ---
 
-# Installation Guide
+# 💻 Installation Guide
 
 ## 1. Clone or Download Project
 
@@ -289,7 +310,7 @@ pip install -r requirements.txt
 
 ---
 
-# Running the Application
+# ▶️ Running the Application
 
 Start Flask server:
 
@@ -333,7 +354,7 @@ with app.app_context():
 
 ---
 
-# Security Workflow
+# 🔒 Security Workflow
 
 ## User Registration
 
@@ -369,7 +390,7 @@ with app.app_context():
 
 ---
 
-# Security Advantages
+# 🛡️ Security Advantages
 
 This system protects against:
 
@@ -407,7 +428,7 @@ encrypted_content = crypto.encrypt_data(content)
 
 ---
 
-# Future Improvements
+# 📈 Future Improvements
 
 Potential upgrades:
 
@@ -438,7 +459,7 @@ Recommended screenshots for report:
 
 ---
 
-# Conclusion
+# ✅ Conclusion
 
 The Secure Notes Management System demonstrates modern software security practices using Flask and Python.
 
@@ -454,7 +475,17 @@ This project provides a strong foundation for understanding secure web applicati
 
 ---
 
-# Author
+# 👨‍💻 Author
+
+<div align="center">
+
+### SWE210 Software Security Course Project
+
+Developed using:
+
+🐍 Python • 🌐 Flask • 🗄️ SQLAlchemy • 🔐 Cryptography
+
+</div>
 
 SWE210 Software Security Course Project
 
