@@ -1,20 +1,32 @@
 from cryptography.fernet import Fernet
-import hashlib
 import base64
+import hashlib
 
 
+# ====================================
+# ENCRYPTION CLASS
+# ====================================
 class EncryptionManager:
+    """
+    Handles encryption and decryption
+    using Fernet symmetric encryption.
+    """
 
     def __init__(self, secret_key):
+        """
+        Converts secret key into
+        Fernet-compatible format.
+        """
 
+        # SHA256 HASH
+        key = hashlib.sha256(
+            secret_key.encode()
+        ).digest()
 
-        # Generate SHA256 hash
-        key = hashlib.sha256(secret_key.encode()).digest()
-
-        # Convert to Fernet-compatible key
+        # BASE64 CONVERSION
         self.fernet_key = base64.urlsafe_b64encode(key)
 
-        # Fernet object
+        # FERNET OBJECT
         self.cipher = Fernet(self.fernet_key)
 
     # ====================================
@@ -39,8 +51,15 @@ class EncryptionManager:
         if not encrypted_text:
             return None
 
-        decrypted = self.cipher.decrypt(
-            encrypted_text.encode()
-        )
+        try:
 
-        return decrypted.decode()
+            decrypted = self.cipher.decrypt(
+                encrypted_text.encode()
+            )
+
+            return decrypted.decode()
+
+        # HANDLE INVALID / CORRUPTED TOKENS
+        except Exception:
+
+            return None

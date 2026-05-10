@@ -1,33 +1,29 @@
-{% extends 'base.html' %}
+<!-- ==================================== -->
+<!-- LOGIN.HTML -->
+<!-- ==================================== -->
 
-{% block content %}
+<form method="POST">
 
-<div class="form-wrapper">
+    <!-- CSRF TOKEN -->
+    <input type="hidden"
+           name="csrf_token"
+           value="{{ csrf_token() }}">
 
-    <div class="form-card">
+    <!-- USERNAME -->
+    <input type="text"
+           name="username"
+           placeholder="Username"
+           required>
 
-        <h2>Login</h2>
+    <!-- PASSWORD -->
+    <input type="password"
+           name="password"
+           placeholder="Password"
+           required>
 
-        <form method="POST">
+    <!-- SUBMIT -->
+    <button type="submit">
+        Login
+    </button>
 
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="username" required>
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
-
-            <button type="submit" class="btn-primary full-width">
-                Login
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-{% endblock %}
+</form>

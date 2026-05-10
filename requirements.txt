@@ -1,4 +1,7 @@
 Flask
 Flask-SQLAlchemy
-Werkzeug
 cryptography
+Flask-WTF
+python-dotenv
+Flask-Limiter
+email-validator

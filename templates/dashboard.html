@@ -1,76 +1,59 @@
-{% extends 'base.html' %}
+<!-- ==================================== -->
+<!-- DASHBOARD.HTML -->
+<!-- ==================================== -->
 
-{% block content %}
+<!-- CREATE NOTE FORM -->
 
-<div class="dashboard-header">
+<form method="POST"
+      action="{{ url_for('routes.create_note') }}">
 
-    <h1>
-        Welcome, {{ user.username }}
-    </h1>
+    <!-- CSRF TOKEN -->
+    <input type="hidden"
+           name="csrf_token"
+           value="{{ csrf_token() }}">
 
-    <p>
-        Secure encrypted note management dashboard.
-    </p>
+    <!-- NOTE CONTENT -->
+    <textarea name="content"
+              placeholder="Write secure note..."
+              required></textarea>
 
-</div>
+    <!-- SUBMIT -->
+    <button type="submit">
+        Save Note
+    </button>
+
+</form>
 
 
-<div class="note-form-card">
+<!-- ==================================== -->
+<!-- NOTES LIST -->
+<!-- ==================================== -->
 
-    <h2>Create Secure Note</h2>
+{% for note in notes %}
 
-    <form method="POST" action="{{ url_for('routes.create_note') }}">
+<div class="note-card">
 
-        <textarea
-            name="content"
-            rows="5"
-            placeholder="Write your secure note here..."
-            required>
-        </textarea>
+    <p>{{ note.content }}</p>
 
-        <button type="submit" class="btn-primary">
-            Save Secure Note
+    <small>{{ note.created_at }}</small>
+
+    <!-- DELETE FORM -->
+    <form method="POST"
+          action="{{ url_for('routes.delete_note', note_id=note.id) }}">
+
+        <!-- CSRF TOKEN -->
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <!-- DELETE BUTTON -->
+        <button type="submit"
+                class="btn btn-danger btn-sm">
+            Delete
         </button>
 
     </form>
 
 </div>
 
-
-<div class="notes-grid">
-
-    {% for note in notes %}
-
-        <div class="note-card">
-
-            <div class="note-top">
-
-                <h3>Secure Note</h3>
-
-                <span>
-                    {{ note.created_at.strftime('%Y-%m-%d') }}
-                </span>
-
-            </div>
-
-            <p>
-                {{ note.content }}
-            </p>
-
-            <form
-                method="POST"
-                action="{{ url_for('routes.delete_note', note_id=note.id) }}">
-
-                <button type="submit" class="btn-danger">
-                    Delete
-                </button>
-
-            </form>
-
-        </div>
-
-    {% endfor %}
-
-</div>
-
-{% endblock %}
+{% endfor %}
