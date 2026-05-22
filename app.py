@@ -2,10 +2,8 @@ from flask import Flask
 from config import Config
 from models import db
 from routes import routes
-from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 
 # Load configuration
 app.config.from_object(Config)
@@ -23,4 +21,4 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
