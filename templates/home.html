@@ -1,53 +1,87 @@
 {% extends 'base.html' %}
+{% block title %}SecureNotes | Home{% endblock %}
 
 {% block content %}
-
 <section class="hero-section">
-
     <div class="hero-content">
+        <div class="eyebrow">
+            <span class="status-dot"></span>
+            SWE210 Software Security Project
+        </div>
 
-        <h1>
-            Secure Notes Management System
-        </h1>
+        <h1>Secure notes, protected access, professional control.</h1>
 
-        <p>
-            Professional software security project with authentication,
-            RBAC access control and encrypted data storage.
+        <p class="hero-description">
+            A modern Flask web application that demonstrates secure authentication,
+            role-based access control and encrypted storage for private notes.
         </p>
 
         <div class="hero-buttons">
-
-            <a href="{{ url_for('routes.login') }}" class="btn-primary">
-                Login
-            </a>
-
-            <a href="{{ url_for('routes.register') }}" class="btn-secondary">
-                Register
-            </a>
-
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('routes.dashboard') }}" class="btn-primary">Open Dashboard</a>
+                {% if session.get('role') == 'admin' %}
+                    <a href="{{ url_for('routes.admin_panel') }}" class="btn-secondary">Admin Panel</a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('routes.register') }}" class="btn-primary">Get Started</a>
+                <a href="{{ url_for('routes.login') }}" class="btn-secondary">Login</a>
+            {% endif %}
         </div>
 
+        <div class="hero-badges" aria-label="Project security highlights">
+            <span>Password Hashing</span>
+            <span>CSRF Protection</span>
+            <span>Rate Limiting</span>
+        </div>
     </div>
 
+    <aside class="security-preview-card" aria-label="Security overview">
+        <div class="preview-header">
+            <div>
+                <span class="preview-label">Security Status</span>
+                <h2>Protected</h2>
+            </div>
+            <span class="shield-icon">🛡️</span>
+        </div>
+
+        <div class="security-meter">
+            <span></span>
+        </div>
+
+        <div class="preview-list">
+            <div>
+                <strong>Authentication</strong>
+                <span>Hashed passwords</span>
+            </div>
+            <div>
+                <strong>Authorization</strong>
+                <span>Admin/User RBAC</span>
+            </div>
+            <div>
+                <strong>Data Security</strong>
+                <span>Encrypted note storage</span>
+            </div>
+        </div>
+    </aside>
 </section>
 
 <section class="features-grid">
-
-    <div class="feature-card">
+    <article class="feature-card">
+        <span class="feature-icon">🔑</span>
         <h3>Password Hashing</h3>
-        <p>Passwords are securely hashed before database storage.</p>
-    </div>
+        <p>Passwords are never stored as plaintext. User credentials are protected with secure hashing.</p>
+    </article>
 
-    <div class="feature-card">
+    <article class="feature-card">
+        <span class="feature-icon">🔐</span>
         <h3>Encrypted Notes</h3>
-        <p>All sensitive notes are encrypted using Fernet encryption.</p>
-    </div>
+        <p>Private notes are encrypted before database storage and decrypted only when the owner views them.</p>
+    </article>
 
-    <div class="feature-card">
+    <article class="feature-card">
+        <span class="feature-icon">👥</span>
         <h3>RBAC Access Control</h3>
-        <p>Admin and User roles are protected with authorization logic.</p>
-    </div>
-
+        <p>Admin and user permissions are separated with protected routes and authorization checks.</p>
+    </article>
 </section>
-
 {% endblock %}

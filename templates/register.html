@@ -1,30 +1,56 @@
 {% extends 'base.html' %}
+{% block title %}SecureNotes | Register{% endblock %}
 
 {% block content %}
-<div class="form-wrapper">
-    <div class="form-card">
-        <h2>Register</h2>
+<div class="auth-layout">
+    <section class="auth-panel">
+        <div class="eyebrow">
+            <span class="status-dot"></span>
+            Create protected identity
+        </div>
+        <h1>Start securely.</h1>
+        <p>Create an account with strong password rules and store notes with encryption-first protection.</p>
 
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="auth-checklist">
+            <span>✓ Strong password policy</span>
+            <span>✓ CSRF-protected forms</span>
+            <span>✓ Encrypted note workflow</span>
+        </div>
+    </section>
 
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="username" placeholder="Username" required>
-            </div>
+    <div class="form-wrapper compact">
+        <div class="form-card">
+            <span class="form-kicker">New Account</span>
+            <h2>Create account</h2>
+            <p class="form-subtitle">Use a strong password to protect your workspace.</p>
 
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="Email" required>
-            </div>
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" placeholder="Choose username" autocomplete="username" required>
+                </div>
 
-            <button type="submit" class="btn-primary full-width">Register</button>
-        </form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" name="email" placeholder="name@example.com" autocomplete="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" placeholder="Create password" autocomplete="new-password" required>
+                    <small class="help-text">Minimum 8 characters with uppercase, lowercase, number and special character.</small>
+                </div>
+
+                <button type="submit" class="btn-primary full-width">Register</button>
+            </form>
+
+            <p class="form-footer-text">
+                Already registered?
+                <a href="{{ url_for('routes.login') }}">Login</a>
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}

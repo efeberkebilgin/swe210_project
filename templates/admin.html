@@ -1,87 +1,101 @@
 {% extends 'base.html' %}
+{% block title %}SecureNotes | Admin Panel{% endblock %}
 
 {% block content %}
+<div class="admin-header page-header">
+    <div>
+        <span class="eyebrow compact-eyebrow">System management</span>
+        <h1>Admin Panel</h1>
+        <p>Monitor registered users and encrypted notes from a protected administrator area.</p>
+    </div>
 
-<div class="admin-header">
-
-    <h1>Admin Panel</h1>
-
-    <p>
-        System management and monitoring dashboard.
-    </p>
-
+    <div class="header-action-card admin-access">
+        <span>Access Level</span>
+        <strong>Admin</strong>
+    </div>
 </div>
 
+<section class="stats-grid">
+    <div class="stat-card">
+        <span>Registered Users</span>
+        <strong>{{ users|length }}</strong>
+        <small>Total accounts</small>
+    </div>
+    <div class="stat-card">
+        <span>Secure Notes</span>
+        <strong>{{ notes|length }}</strong>
+        <small>Encrypted records</small>
+    </div>
+    <div class="stat-card">
+        <span>Authorization</span>
+        <strong>RBAC</strong>
+        <small>Admin protected route</small>
+    </div>
+</section>
 
 <div class="admin-grid">
+    <section class="admin-card">
+        <div class="section-title-row">
+            <div>
+                <span class="form-kicker">Identity</span>
+                <h2>Registered Users</h2>
+            </div>
+        </div>
 
-    <div class="admin-card">
-
-        <h2>Registered Users</h2>
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                {% for user in users %}
-
+        <div class="table-wrapper">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.role }}</td>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
                     </tr>
+                </thead>
 
-                {% endfor %}
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>#{{ user.id }}</td>
+                            <td><strong>{{ user.username }}</strong></td>
+                            <td>{{ user.email }}</td>
+                            <td><span class="role-badge {{ user.role }}">{{ user.role }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-            </tbody>
+    <section class="admin-card">
+        <div class="section-title-row">
+            <div>
+                <span class="form-kicker">Encrypted Data</span>
+                <h2>Secure Notes</h2>
+            </div>
+        </div>
 
-        </table>
-
-    </div>
-
-
-    <div class="admin-card">
-
-        <h2>Secure Notes</h2>
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>User ID</th>
-                    <th>Created At</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                {% for note in notes %}
-
+        <div class="table-wrapper">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ note.id }}</td>
-                        <td>{{ note.user_id }}</td>
-                        <td>{{ note.created_at.strftime('%Y-%m-%d') }}</td>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Created At</th>
                     </tr>
+                </thead>
 
-                {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
+                <tbody>
+                    {% for note in notes %}
+                        <tr>
+                            <td>#{{ note.id }}</td>
+                            <td>User {{ note.user_id }}</td>
+                            <td>{{ note.created_at.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
-
 {% endblock %}

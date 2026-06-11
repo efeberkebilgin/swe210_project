@@ -1,45 +1,95 @@
 {% extends 'base.html' %}
+{% block title %}SecureNotes | Dashboard{% endblock %}
 
 {% block content %}
-<div class="dashboard-header">
-    <h1>Dashboard</h1>
-    <p>Welcome, {{ user.username }}. Your notes are encrypted before they are stored.</p>
+<div class="dashboard-header page-header">
+    <div>
+        <span class="eyebrow compact-eyebrow">Private workspace</span>
+        <h1>Dashboard</h1>
+        <p>Welcome, {{ user.username }}. Your notes are encrypted before they are stored.</p>
+    </div>
+
+    <div class="header-action-card">
+        <span>Role</span>
+        <strong>{{ user.role|capitalize }}</strong>
+    </div>
 </div>
 
-<div class="note-form-card">
-    <h2>Create Secure Note</h2>
+<section class="stats-grid">
+    <div class="stat-card">
+        <span>Total Notes</span>
+        <strong>{{ notes|length }}</strong>
+        <small>Owned by you</small>
+    </div>
+    <div class="stat-card">
+        <span>Encryption</span>
+        <strong>Fernet</strong>
+        <small>Symmetric encryption</small>
+    </div>
+    <div class="stat-card">
+        <span>Access</span>
+        <strong>Private</strong>
+        <small>Owner-only note control</small>
+    </div>
+</section>
 
-    <form method="POST" action="{{ url_for('routes.create_note') }}">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        <div class="form-group">
-            <label>Note content</label>
-            <textarea name="content" rows="5" placeholder="Write secure note..." required></textarea>
+<div class="workspace-grid">
+    <section class="note-form-card">
+        <div class="card-heading">
+            <span class="feature-icon">✍️</span>
+            <div>
+                <h2>Create Secure Note</h2>
+                <p>Add a private note that will be encrypted in the database.</p>
+            </div>
         </div>
 
-        <button type="submit" class="btn-primary">Save Note</button>
-    </form>
-</div>
+        <form method="POST" action="{{ url_for('routes.create_note') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-<div class="notes-grid">
-    {% for note in notes %}
-        <div class="note-card">
-            <div class="note-top">
-                <strong>Secure Note #{{ note.id }}</strong>
-                <small>{{ note.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+            <div class="form-group">
+                <label for="content">Note content</label>
+                <textarea id="content" name="content" rows="7" placeholder="Write a private note..." required></textarea>
             </div>
 
-            <p>{{ note.content }}</p>
+            <button type="submit" class="btn-primary full-width">Save encrypted note</button>
+        </form>
+    </section>
 
-            <form method="POST" action="{{ url_for('routes.delete_note', note_id=note.id) }}">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button type="submit" class="btn-danger">Delete</button>
-            </form>
+    <section class="notes-section">
+        <div class="section-title-row">
+            <div>
+                <span class="form-kicker">Vault</span>
+                <h2>Your secure notes</h2>
+            </div>
+            <span class="pill">{{ notes|length }} item{{ 's' if notes|length != 1 else '' }}</span>
         </div>
-    {% else %}
-        <div class="note-card">
-            <p>No secure notes yet.</p>
+
+        <div class="notes-grid">
+            {% for note in notes %}
+                <article class="note-card">
+                    <div class="note-top">
+                        <div>
+                            <strong>Secure Note #{{ note.id }}</strong>
+                            <small>{{ note.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                        <span class="lock-badge">Encrypted</span>
+                    </div>
+
+                    <p class="note-content">{{ note.content }}</p>
+
+                    <form method="POST" action="{{ url_for('routes.delete_note', note_id=note.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn-danger">Delete note</button>
+                    </form>
+                </article>
+            {% else %}
+                <div class="empty-state">
+                    <span>🔒</span>
+                    <h3>No secure notes yet</h3>
+                    <p>Create your first encrypted note using the form.</p>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </section>
 </div>
 {% endblock %}

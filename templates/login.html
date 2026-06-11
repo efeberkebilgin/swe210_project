@@ -1,25 +1,50 @@
 {% extends 'base.html' %}
+{% block title %}SecureNotes | Login{% endblock %}
 
 {% block content %}
-<div class="form-wrapper">
-    <div class="form-card">
-        <h2>Login</h2>
+<div class="auth-layout">
+    <section class="auth-panel">
+        <div class="eyebrow">
+            <span class="status-dot"></span>
+            Secure session access
+        </div>
+        <h1>Welcome back.</h1>
+        <p>Login to access your encrypted notes and manage private content from your personal dashboard.</p>
 
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="auth-checklist">
+            <span>✓ Protected routes</span>
+            <span>✓ Session management</span>
+            <span>✓ Login rate limiting</span>
+        </div>
+    </section>
 
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="username" placeholder="Username" required>
-            </div>
+    <div class="form-wrapper compact">
+        <div class="form-card">
+            <span class="form-kicker">Account Login</span>
+            <h2>Sign in</h2>
+            <p class="form-subtitle">Enter your credentials to continue.</p>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-            <button type="submit" class="btn-primary full-width">Login</button>
-        </form>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" placeholder="Enter username" autocomplete="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" placeholder="Enter password" autocomplete="current-password" required>
+                </div>
+
+                <button type="submit" class="btn-primary full-width">Login</button>
+            </form>
+
+            <p class="form-footer-text">
+                Do not have an account?
+                <a href="{{ url_for('routes.register') }}">Create one</a>
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}
